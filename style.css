@@ -1,0 +1,359 @@
+:root {
+  --bg: #222;
+  --blue: 0, 163, 220;
+  --red: 255, 0, 0;
+  --ui: 1; /* "UI scale" option */
+  --font: 'Lucida Console', Monaco, 'DejaVu Sans Mono', Menlo, Consolas, monospace;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: #fff;
+  font-family: var(--font);
+}
+
+body {
+  height: 100vh;
+  height: 100dvh;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+#stage {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  touch-action: none;
+  background: var(--bg);
+}
+
+/* the game canvas always fills the whole window; the game adapts its view */
+#game {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(0deg, transparent 24%, rgba(204, 204, 204, .25) 25%, rgba(204, 204, 204, .25) 26%, transparent 27%, transparent 74%, rgba(204, 204, 204, .25) 75%, rgba(204, 204, 204, .25) 76%, transparent 77%, transparent),
+    linear-gradient(90deg, transparent 24%, rgba(204, 204, 204, .25) 25%, rgba(204, 204, 204, .25) 26%, transparent 27%, transparent 74%, rgba(204, 204, 204, .25) 75%, rgba(204, 204, 204, .25) 76%, transparent 77%, transparent);
+  background-size: 15px 15px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Scenes (HTML overlay drawn above the canvas)                         */
+/* ------------------------------------------------------------------ */
+#ui {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.scene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  box-sizing: border-box;
+  opacity: 0;
+  transition: opacity .45s linear;
+  font-size: calc(clamp(16px, 2.6vmin + 6px, 34px) * var(--ui));
+}
+
+.scene.visible {
+  opacity: 1;
+}
+
+.scene.visible button {
+  pointer-events: auto;
+}
+
+.big {
+  font-size: 1.3em;
+  margin: 0;
+  min-width: 10ch;
+  text-align: left;
+  white-space: pre;
+}
+
+.note {
+  margin: .9em 0 0;
+  font-size: .72em;
+  color: #cfd8dc;
+  text-align: center;
+  max-width: 26em;
+  line-height: 1.4;
+  min-height: 1.4em;
+}
+
+.note:empty {
+  display: none;
+}
+
+.note.error {
+  color: #ff7a7a;
+}
+
+/* Main menu ----------------------------------------------------------- */
+.menu-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(8px, 4vh, 48px);
+  width: 100%;
+  max-height: 100%;
+}
+
+.logo-wrap {
+  width: min(92vw, 780px, 62vh * 1.93);
+  aspect-ratio: 590 / 305;
+}
+
+#logo {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.menu-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* short landscape screens: logo on the left, buttons on the right */
+@media (orientation: landscape) and (max-height: 620px) {
+  .menu-layout {
+    flex-direction: row;
+    gap: 4vw;
+  }
+  .logo-wrap {
+    width: min(52vw, 560px, 80vh * 1.93);
+  }
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: .7em;
+}
+
+/* Neon button, same look as the original canvas buttons */
+button.neon {
+  font: inherit;
+  color: #fff;
+  background: var(--bg);
+  min-width: 11em;
+  min-height: 48px;
+  padding: .55em 1.1em;
+  border: 1.5px solid #fff;
+  border-radius: 0;
+  cursor: pointer;
+  letter-spacing: .04em;
+  box-shadow:
+    0 0 0 1.5px rgba(var(--blue), .45),
+    0 0 0 4px rgba(var(--blue), .25),
+    0 0 10px 3px rgba(var(--blue), .35);
+  transition: box-shadow .12s;
+  touch-action: manipulation;
+}
+
+button.neon:disabled {
+  opacity: .35;
+  cursor: default;
+  box-shadow: 0 0 0 1.5px rgba(100, 100, 100, .6), 0 0 0 4px rgba(100, 100, 100, .3);
+}
+
+button:focus {
+  outline: none;
+}
+
+button.neon:focus-visible,
+.kbd button.neon:focus {
+  box-shadow:
+    0 0 0 1.5px rgba(var(--red), .55),
+    0 0 0 4px rgba(var(--red), .3),
+    0 0 12px 4px rgba(var(--red), .45);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  button.neon:not(:disabled):hover {
+    box-shadow:
+      0 0 0 1.5px rgba(var(--red), .55),
+      0 0 0 4px rgba(var(--red), .3),
+      0 0 12px 4px rgba(var(--red), .45);
+  }
+}
+
+button.neon:active:not(:disabled) {
+  background: #333;
+}
+
+/* Panels (options, game over, win, pause) ------------------------------ */
+.panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(34, 34, 34, .9);
+  border: 1.5px solid #fff;
+  box-shadow: 0 0 0 4px rgba(var(--blue), .25), 0 0 18px 4px rgba(var(--blue), .3);
+  padding: 1.1em 1.4em 1.4em;
+  max-width: 100%;
+  max-height: 100%;
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+.title {
+  margin: 0 0 .7em;
+  font-size: 1.35em;
+  font-weight: normal;
+  letter-spacing: .06em;
+  text-align: center;
+  color: #fff;
+  text-shadow: 0 0 6px rgba(var(--blue), 1), 0 0 14px rgba(var(--blue), .8);
+}
+
+.title.red {
+  text-shadow: 0 0 6px rgba(var(--red), 1), 0 0 14px rgba(var(--red), .8);
+}
+
+.result {
+  margin: -.2em 0 1em;
+  text-align: center;
+  line-height: 1.5;
+  font-size: .9em;
+}
+
+.result .new {
+  color: #ffd54a;
+}
+
+.options {
+  display: grid;
+  grid-template-columns: auto 48px 4.5ch 48px;
+  align-items: center;
+  column-gap: .6em;
+  row-gap: .8em;
+  margin-bottom: 1.3em;
+}
+
+.options .label {
+  padding-right: .6em;
+  white-space: nowrap;
+}
+
+.options .value {
+  text-align: right;
+  white-space: pre;
+}
+
+.options button.neon {
+  min-width: 48px;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+}
+
+/* short landscape screens: tighter panels */
+@media (max-height: 460px) {
+  .panel {
+    padding: .6em 1.2em .9em;
+  }
+  .title {
+    margin-bottom: .4em;
+  }
+  .options {
+    row-gap: .45em;
+    margin-bottom: .8em;
+  }
+  .panel .buttons {
+    flex-direction: row;
+  }
+  .panel button.neon {
+    min-width: 8em;
+  }
+  .panel .options button.neon {
+    min-width: 44px;
+    width: 44px;
+    height: 44px;
+  }
+  .options {
+    grid-template-columns: auto 44px 4.5ch 44px;
+  }
+}
+
+@media (max-width: 380px) {
+  .options {
+    grid-template-columns: auto 44px 4.5ch 44px;
+    column-gap: .4em;
+  }
+}
+
+/* HUD buttons (pause / mute) ------------------------------------------ */
+#hudButtons {
+  position: absolute;
+  top: max(8px, env(safe-area-inset-top));
+  right: max(8px, env(safe-area-inset-right));
+  display: flex;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.icon-btn {
+  pointer-events: auto;
+  width: 44px;
+  height: 44px;
+  padding: 9px;
+  border: 1.5px solid rgba(255, 255, 255, .85);
+  background: rgba(34, 34, 34, .7);
+  box-shadow: 0 0 0 3px rgba(var(--blue), .25);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.icon-btn:focus-visible {
+  box-shadow: 0 0 0 3px rgba(var(--red), .5);
+}
+
+.icon-btn svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  fill: #fff;
+}
+
+.icon-btn .stroke {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.icon-btn .off,
+.icon-btn[aria-pressed="true"] .on {
+  display: none;
+}
+
+.icon-btn[aria-pressed="true"] .off {
+  display: block;
+}

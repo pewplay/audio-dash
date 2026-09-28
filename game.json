@@ -1,0 +1,43 @@
+{
+  "$schema": "https://raw.githubusercontent.com/pewplay/pewplay/main/schema/game.schema.json",
+  "title": "Audio Dash",
+  "description": "Fly a neon line through the waveform of a song, holding to rise and letting go to fall, in this free rhythm arcade game in your browser.",
+  "about": "Audio Dash turns music into a level. The waveform of the song scrolls past as a tunnel of glowing bars, and you steer a tiny neon ship through the gap between them for as long as the track plays. Loud beats push spikes into your path, the tunnel twists up and down, and the gap slowly narrows as the song builds.\n\nThere is only one control, which makes it instantly readable and very hard to put down: hold to climb, release to drop, and learn the rhythm of the track to survive. Every song always produces the same level, so each run teaches you a little more. Beat your best time on the built-in theme, then upload any song from your own device to turn it into a brand new course, with its own best time.\n\nOriginally created by Steven Lambert for js13kGames 2018.",
+  "howToPlay": "Hold to make your ship rise and let go to let it fall. Stay inside the gap between the top and bottom wave bars until the song ends. Touching a bar ends the run, and your time is saved as the best for that song.",
+  "controls": [
+    { "input": "Tap or hold (touch)", "action": "Rise; release to fall" },
+    { "input": "Space or mouse button (hold)", "action": "Rise; release to fall" },
+    { "input": "Esc or P", "action": "Pause or resume" },
+    { "input": "Arrow keys and Enter", "action": "Move between and select menu buttons" },
+    { "input": "On-screen buttons", "action": "Pause and mute the music" }
+  ],
+  "tips": [
+    "Use short taps to make small corrections instead of long holds, which send you shooting into the top bars.",
+    "Watch the red bar at your ship's position: it shows exactly where the gap is right now.",
+    "Loud moments in the music create spikes, so get ready to dodge when the song gets intense.",
+    "If the game feels too fast, lower the game speed in Options to practise a tricky section."
+  ],
+  "faq": [
+    {
+      "question": "Is Audio Dash free to play?",
+      "answer": "Yes, Audio Dash is completely free and runs in your browser with no download or sign-up."
+    },
+    {
+      "question": "Can I play Audio Dash on my phone or tablet?",
+      "answer": "Yes, just tap or hold anywhere on the screen to rise. It works in both orientations, and holding the phone upright gives the biggest view of the tunnel."
+    },
+    {
+      "question": "Can I play with my own music?",
+      "answer": "Yes, choose Upload Song in the main menu and pick an audio file from your device. The file stays on your device and is turned into a new level with its own best time."
+    }
+  ],
+  "category": "Arcade",
+  "tags": ["rhythm", "music", "one-button", "neon", "reflex", "arcade"],
+  "author": "Steven Lambert",
+  "playMode": "SinglePlayer",
+  "orientation": "any",
+  "cover": "cover.png",
+  "screenshots": ["screenshots/1.png", "screenshots/2.png", "screenshots/3.png"],
+  "added": "2026-09-28",
+  "draft": false
+}

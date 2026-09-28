@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Audio Dash</title>
+  <meta name="description" content="Ride the waveform of a song: hold to rise, release to fall and dodge the beat.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="stage" role="application" aria-label="Audio Dash">
+  <canvas id="game" aria-hidden="true"></canvas>
+
+  <div id="ui">
+    <!-- Loading -->
+    <section class="scene" id="loadingScene" hidden>
+      <p class="big">LOADING<span id="loadingDots"></span></p>
+      <p class="note" id="loadingNote"></p>
+    </section>
+
+    <!-- Main menu -->
+    <section class="scene" id="menuScene" hidden>
+      <div class="menu-layout">
+        <div class="logo-wrap">
+          <canvas id="logo" role="img" aria-label="Audio Dash - Play the Wave"></canvas>
+        </div>
+        <div class="menu-side">
+          <div class="buttons">
+            <button type="button" class="neon" id="startBtn">START</button>
+            <button type="button" class="neon" id="uploadBtn">UPLOAD SONG</button>
+            <button type="button" class="neon" id="defaultSongBtn" hidden>DEFAULT SONG</button>
+            <button type="button" class="neon" id="optionsBtn">OPTIONS</button>
+          </div>
+          <p class="note" id="songInfo"></p>
+          <p class="note error" id="menuMsg" role="alert"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Options -->
+    <section class="scene" id="optionsScene" hidden>
+      <div class="panel">
+        <h2 class="title">OPTIONS</h2>
+        <div class="options" id="optionRows"></div>
+        <div class="buttons">
+          <button type="button" class="neon" id="saveBtn">SAVE</button>
+          <button type="button" class="neon" id="cancelBtn">CANCEL</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Game over -->
+    <section class="scene" id="gameOverScene" hidden>
+      <div class="panel">
+        <h2 class="title red">GAME OVER</h2>
+        <p class="result" id="gameOverResult" role="alert"></p>
+        <div class="buttons">
+          <button type="button" class="neon" id="restartBtn">RESTART</button>
+          <button type="button" class="neon" id="menuBtn">MAIN MENU</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Win -->
+    <section class="scene" id="winScene" hidden>
+      <div class="panel">
+        <h2 class="title">SONG COMPLETED!</h2>
+        <p class="result" id="winResult" role="alert"></p>
+        <div class="buttons">
+          <button type="button" class="neon" id="winRestartBtn">PLAY AGAIN</button>
+          <button type="button" class="neon" id="winMenuBtn">MAIN MENU</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pause -->
+    <section class="scene" id="pauseScene" hidden>
+      <div class="panel">
+        <h2 class="title">PAUSED</h2>
+        <div class="buttons">
+          <button type="button" class="neon" id="resumeBtn">RESUME</button>
+          <button type="button" class="neon" id="pauseMenuBtn">MAIN MENU</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div id="hudButtons">
+    <button type="button" class="icon-btn" id="pauseBtn" aria-label="Pause" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/></svg>
+    </button>
+    <button type="button" class="icon-btn" id="muteBtn" aria-label="Mute music" aria-pressed="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true" class="on"><path d="M4 9h4l5-4v14l-5-4H4z"/><path class="stroke" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true" class="off"><path d="M4 9h4l5-4v14l-5-4H4z"/><path class="stroke" d="M16 9l6 6M22 9l-6 6"/></svg>
+    </button>
+  </div>
+
+  <input type="file" accept="audio/*" tabindex="-1" hidden id="uploadFile">
+</div>
+
+<script src="js/kontra.js"></script>
+<script src="js/wavesurfer.js"></script>
+<script src="js/theme-peaks.js"></script>
+<script src="js/globals.js"></script>
+<script src="js/view.js"></script>
+<script src="js/drawing.js"></script>
+<script src="js/random.js"></script>
+<script src="js/time.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/ship.js"></script>
+<script src="js/scenes.js"></script>
+<script src="js/input.js"></script>
+<script src="js/loop.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
